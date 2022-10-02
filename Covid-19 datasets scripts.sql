@@ -75,7 +75,7 @@ and dea.date = vac.date
 --Looking at Total Population Vs  Vaccinations
 
 select dea.continent , dea.location, dea.date, dea.population, vac.new_vaccinations
-,sum(convert(int,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
+,sum(convert(float,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
 from Portfolio..[COVID DEATH] dea
 join Portfolio..[COVID vaccination] vac
  on dea.location = vac.location
@@ -90,7 +90,7 @@ join Portfolio..[COVID vaccination] vac
  as
  (
  select dea.continent , dea.location, dea.date, dea.population, vac.new_vaccinations
-,sum(convert(int,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
+,sum(convert(float,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
 from Portfolio..[COVID DEATH] dea
 join Portfolio..[COVID vaccination] vac
@@ -116,7 +116,7 @@ join Portfolio..[COVID vaccination] vac
  )
  insert into #PercentofPeopleVaccinated
 select dea.continent , dea.location, dea.date, dea.population, vac.new_vaccinations
-,sum(convert(int, vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
+,sum(convert(float, vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
 from Portfolio..[COVID DEATH] dea
 join Portfolio..[COVID vaccination] vac
@@ -131,7 +131,7 @@ and dea.date = vac.date
  --Creating view to store Data for later visulizations
  create view PercentofPeopleVaccinated as
  select dea.continent , dea.location, dea.date, dea.population, vac.new_vaccinations
-,sum(convert(int, vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
+,sum(convert(float, vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
 from Portfolio..[COVID DEATH] dea
 join Portfolio..[COVID vaccination] vac
